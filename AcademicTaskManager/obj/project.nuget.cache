@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "CXcpt9keywE=",
+  "success": true,
+  "projectFilePath": "D:\\CSE 325 MyProjects\\cse325-project\\AcademicTaskManager\\AcademicTaskManager.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\jo_se\\.nuget\\packages\\microsoft.aspnetcore.app.internal.assets\\10.0.1\\microsoft.aspnetcore.app.internal.assets.10.0.1.nupkg.sha512"
+  ],
+  "logs": []
+}
