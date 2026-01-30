@@ -1,0 +1,78 @@
+@page "/tasks/{projectId:int?}"
+@using AcademicTaskManager.Data
+@using Microsoft.EntityFrameworkCore
+@using System.Linq
+@using AcademicTaskManager.Models
+@inject ApplicationDbContext Db
+@inject NavigationManager Nav
+
+<h3>Tareas</h3>
+<a class="btn btn-primary mb-2" href="/tasks/create">Crear Tarea</a>
+
+<select class="form-select mb-3" @onchange="OnProjectChanged">
+    <option value="">Todos los proyectos</option>
+    @foreach (var p in projects)
+    {
+        <option value="@p.Id" selected="@(p.Id == selectedProjectId)">@p.Name</option>
+    }
+</select>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Título</th>
+            <th>Descripción</th>
+            <th>Fecha Límite</th>
+            <th>Completada</th>
+            <th>Proyecto</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var task in tasks)
+        {
+            <tr>
+                <td>@task.Title</td>
+                <td>@task.Description</td>
+                <td>@task.DueDate.ToShortDateString()</td>
+                <td>@(task.IsCompleted ? "Sí" : "No")</td>
+                <td>@task.Project?.Name</td>
+                <td>
+                    <a class="btn btn-sm btn-secondary" href="/tasks/edit/@task.Id">Editar</a>
+                    <a class="btn btn-sm btn-danger" href="/tasks/delete/@task.Id">Eliminar</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@code {
+    [Parameter] public int? projectId { get; set; }
+    private List<TaskItem> tasks = new();
+    private List<Project> projects = new();
+    private int? selectedProjectId;
+
+    protected override async Task OnInitializedAsync()
+    {
+        projects = await Db.Projects.ToListAsync();
+        selectedProjectId = projectId;
+        await LoadTasks();
+    }
+
+    private async Task LoadTasks()
+    {
+        var query = Db.TaskItems.Include(t => t.Project).AsQueryable();
+        if (selectedProjectId.HasValue)
+            query = query.Where(t => t.ProjectId == selectedProjectId);
+        tasks = await query.ToListAsync();
+    }
+
+    private void OnProjectChanged(ChangeEventArgs e)
+    {
+        var value = e.Value?.ToString();
+        if (int.TryParse(value, out int pid))
+            Nav.NavigateTo($"/tasks/{pid}");
+        else
+            Nav.NavigateTo("/tasks");
+    }
+}

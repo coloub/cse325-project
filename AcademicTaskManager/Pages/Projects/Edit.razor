@@ -1,0 +1,49 @@
+@page "/projects/edit/{id:int}"
+@using AcademicTaskManager.Data
+@using Microsoft.AspNetCore.Components.Forms
+@using Microsoft.EntityFrameworkCore
+@using System.Linq
+@using AcademicTaskManager.Models
+@inject ApplicationDbContext Db
+@inject NavigationManager Nav
+
+<h3>Editar Proyecto</h3>
+
+@if (project == null)
+{
+    <p><em>Cargando...</em></p>
+}
+else
+{
+    <EditForm Model="project" OnValidSubmit="UpdateProject">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+        <div class="mb-3">
+            <label>Nombre</label>
+            <InputText class="form-control" @bind-value="project.Name" />
+        </div>
+        <div class="mb-3">
+            <label>Descripción</label>
+            <InputTextArea class="form-control" @bind-value="project.Description" />
+        </div>
+        <button class="btn btn-primary" type="submit">Guardar</button>
+        <a class="btn btn-secondary ms-2" href="/projects">Cancelar</a>
+    </EditForm>
+}
+
+@code {
+    [Parameter] public int id { get; set; }
+    private Project project;
+
+    protected override async Task OnInitializedAsync()
+    {
+        project = await Db.Projects.FindAsync(id);
+    }
+
+    private async Task UpdateProject()
+    {
+        Db.Projects.Update(project);
+        await Db.SaveChangesAsync();
+        Nav.NavigateTo("/projects");
+    }
+}

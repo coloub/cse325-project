@@ -1,0 +1,60 @@
+@page "/tasks/create"
+@using AcademicTaskManager.Data
+@using Microsoft.AspNetCore.Components.Forms
+@using Microsoft.EntityFrameworkCore
+@using System.Linq
+@using AcademicTaskManager.Models
+@inject ApplicationDbContext Db
+@inject NavigationManager Nav
+
+<h3>Crear Tarea</h3>
+
+<EditForm Model="task" OnValidSubmit="CreateTask">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+    <div class="mb-3">
+        <label>Título</label>
+        <InputText class="form-control" @bind-value="task.Title" />
+    </div>
+    <div class="mb-3">
+        <label>Descripción</label>
+        <InputTextArea class="form-control" @bind-value="task.Description" />
+    </div>
+    <div class="mb-3">
+        <label>Fecha Límite</label>
+        <InputDate class="form-control" @bind-value="task.DueDate" />
+    </div>
+    <div class="mb-3">
+        <label>Proyecto</label>
+        <InputSelect class="form-select" @bind-value="task.ProjectId">
+            <option value="">Seleccione un proyecto</option>
+            @foreach (var p in projects)
+            {
+                <option value="@p.Id">@p.Name</option>
+            }
+        </InputSelect>
+    </div>
+    <div class="form-check mb-3">
+        <InputCheckbox class="form-check-input" @bind-value="task.IsCompleted" />
+        <label class="form-check-label">Completada</label>
+    </div>
+    <button class="btn btn-primary" type="submit">Crear</button>
+    <a class="btn btn-secondary ms-2" href="/tasks">Cancelar</a>
+</EditForm>
+
+@code {
+    private TaskItem task = new() { DueDate = DateTime.Now };
+    private List<Project> projects = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        projects = await Db.Projects.ToListAsync();
+    }
+
+    private async Task CreateTask()
+    {
+        Db.TaskItems.Add(task);
+        await Db.SaveChangesAsync();
+        Nav.NavigateTo("/tasks");
+    }
+}

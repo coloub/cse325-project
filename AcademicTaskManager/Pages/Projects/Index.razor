@@ -1,0 +1,42 @@
+@page "/projects"
+@using AcademicTaskManager.Data
+@using Microsoft.EntityFrameworkCore
+@using System.Linq
+@using AcademicTaskManager.Models
+@inject ApplicationDbContext Db
+
+<h3>Proyectos</h3>
+<a class="btn btn-primary mb-2" href="/projects/create">Crear Proyecto</a>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Nombre</th>
+            <th>Descripción</th>
+            <th>Tareas</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var project in projects)
+        {
+            <tr>
+                <td>@project.Name</td>
+                <td>@project.Description</td>
+                <td>@project.Tasks.Count</td>
+                <td>
+                    <a class="btn btn-sm btn-secondary" href="/projects/edit/@project.Id">Editar</a>
+                    <a class="btn btn-sm btn-danger" href="/projects/delete/@project.Id">Eliminar</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@code {
+    private List<Project> projects = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        projects = await Db.Projects.Include(p => p.Tasks).ToListAsync();
+    }
+}

@@ -54,6 +54,38 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xfSW1wb3J0cy5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = 
 
+[D:/CSE 325 MyProjects/cse325-project/AcademicTaskManager/Pages/Projects/Create.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcUHJvamVjdHNcQ3JlYXRlLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/CSE 325 MyProjects/cse325-project/AcademicTaskManager/Pages/Projects/Delete.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcUHJvamVjdHNcRGVsZXRlLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/CSE 325 MyProjects/cse325-project/AcademicTaskManager/Pages/Projects/Edit.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcUHJvamVjdHNcRWRpdC5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/CSE 325 MyProjects/cse325-project/AcademicTaskManager/Pages/Projects/Index.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcUHJvamVjdHNcSW5kZXgucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/CSE 325 MyProjects/cse325-project/AcademicTaskManager/Pages/Tasks/Create.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcVGFza3NcQ3JlYXRlLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/CSE 325 MyProjects/cse325-project/AcademicTaskManager/Pages/Tasks/Delete.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcVGFza3NcRGVsZXRlLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/CSE 325 MyProjects/cse325-project/AcademicTaskManager/Pages/Tasks/Edit.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcVGFza3NcRWRpdC5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/CSE 325 MyProjects/cse325-project/AcademicTaskManager/Pages/Tasks/Index.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcVGFza3NcSW5kZXgucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
 [D:/CSE 325 MyProjects/cse325-project/AcademicTaskManager/Components/Layout/MainLayout.razor]
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xMYXlvdXRcTWFpbkxheW91dC5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = b-xrpiinc7fq

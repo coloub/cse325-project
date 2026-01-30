@@ -1,0 +1,37 @@
+@page "/tasks/delete/{id:int}"
+@using AcademicTaskManager.Data
+@using AcademicTaskManager.Models
+@inject ApplicationDbContext Db
+@inject NavigationManager Nav
+
+<h3>Eliminar Tarea</h3>
+
+@if (task == null)
+{
+    <p><em>Cargando...</em></p>
+}
+else
+{
+    <div class="alert alert-danger">
+        ¿Estás seguro de que deseas eliminar la tarea <b>@task.Title</b>?
+    </div>
+    <button class="btn btn-danger" @onclick="DeleteTask">Eliminar</button>
+    <a class="btn btn-secondary ms-2" href="/tasks">Cancelar</a>
+}
+
+@code {
+    [Parameter] public int id { get; set; }
+    private TaskItem task;
+
+    protected override async Task OnInitializedAsync()
+    {
+        task = await Db.TaskItems.FindAsync(id);
+    }
+
+    private async Task DeleteTask()
+    {
+        Db.TaskItems.Remove(task);
+        await Db.SaveChangesAsync();
+        Nav.NavigateTo("/tasks");
+    }
+}

@@ -1,10 +1,15 @@
-namespace AcademicTaskManager.Models;
 
-public class TaskItem
+using System;
+namespace AcademicTaskManager.Models
 {
-    public int Id { get; set; }
-    public string? Title { get; set; }
-    public string? Status { get; set; }
-    public DateTime DueDate { get; set; }
-    public int ProjectId { get; set; }
+    public class TaskItem
+    {
+        public int Id { get; set; }
+        public string Title { get; set; }
+        public string Description { get; set; }
+        public DateTime DueDate { get; set; }
+        public bool IsCompleted { get; set; }
+        public int ProjectId { get; set; }
+        public Project Project { get; set; }
+    }
 }
