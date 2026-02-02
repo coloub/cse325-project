@@ -3,6 +3,7 @@
 @using Microsoft.EntityFrameworkCore
 @using System.Linq
 @using AcademicTaskManager.Models
+@using Microsoft.AspNetCore.Components.Forms
 @inject ApplicationDbContext Db
 @inject NavigationManager Nav
 
@@ -17,12 +18,25 @@
     }
 </select>
 
+<div class="row mb-2">
+    <div class="col-md-4">
+        <label>Filtrar por estado</label>
+        <InputSelect class="form-select" @bind-value="selectedStatus" @onchange="OnStatusChanged">
+            <option value="">Todos</option>
+            @foreach (var status in Enum.GetValues(typeof(AcademicTaskManager.Models.TaskStatus)).Cast<AcademicTaskManager.Models.TaskStatus>())
+            {
+                <option value="@status">@status</option>
+            }
+        </InputSelect>
+    </div>
+</div>
 <table class="table table-striped">
     <thead>
         <tr>
             <th>Título</th>
             <th>Descripción</th>
             <th>Fecha Límite</th>
+            <th>Estado</th>
             <th>Completada</th>
             <th>Proyecto</th>
             <th>Acciones</th>
@@ -35,6 +49,13 @@
                 <td>@task.Title</td>
                 <td>@task.Description</td>
                 <td>@task.DueDate.ToShortDateString()</td>
+                <td>
+                    @task.Status
+                    @if (task.Status != AcademicTaskManager.Models.TaskStatus.Completed)
+                    {
+                        <InputCheckbox class="form-check-input ms-2" @bind-Value="task.IsCompleted" @onchange="async e => await MarkCompleted(task)" />
+                    }
+                </td>
                 <td>@(task.IsCompleted ? "Sí" : "No")</td>
                 <td>@task.Project?.Name</td>
                 <td>
@@ -48,9 +69,11 @@
 
 @code {
     [Parameter] public int? projectId { get; set; }
+
     private List<TaskItem> tasks = new();
     private List<Project> projects = new();
     private int? selectedProjectId;
+    private string selectedStatus = string.Empty;
 
     protected override async Task OnInitializedAsync()
     {
@@ -59,12 +82,32 @@
         await LoadTasks();
     }
 
+
     private async Task LoadTasks()
     {
         var query = Db.TaskItems.Include(t => t.Project).AsQueryable();
         if (selectedProjectId.HasValue)
             query = query.Where(t => t.ProjectId == selectedProjectId);
+        if (!string.IsNullOrEmpty(selectedStatus) && Enum.TryParse<AcademicTaskManager.Models.TaskStatus>(selectedStatus, out var status))
+            query = query.Where(t => t.Status == (AcademicTaskManager.Models.TaskStatus)status);
         tasks = await query.ToListAsync();
+    }
+
+    private async Task MarkCompleted(TaskItem task)
+    {
+        task.IsCompleted = true;
+        task.Status = AcademicTaskManager.Models.TaskStatus.Completed;
+        Db.TaskItems.Update(task);
+        await Db.SaveChangesAsync();
+        await LoadTasks();
+        StateHasChanged();
+    }
+
+    private async void OnStatusChanged(ChangeEventArgs e)
+    {
+        selectedStatus = e.Value?.ToString() ?? string.Empty;
+        await LoadTasks();
+        StateHasChanged();
     }
 
     private void OnProjectChanged(ChangeEventArgs e)

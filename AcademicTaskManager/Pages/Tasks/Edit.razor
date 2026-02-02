@@ -39,9 +39,14 @@ else
                 }
             </InputSelect>
         </div>
-        <div class="form-check mb-3">
-            <InputCheckbox class="form-check-input" @bind-value="task.IsCompleted" />
-            <label class="form-check-label">Completada</label>
+        <div class="mb-3">
+            <label>Estado</label>
+            <InputSelect class="form-select" @bind-value="task.Status">
+                @foreach (AcademicTaskManager.Models.TaskStatus status in Enum.GetValues(typeof(AcademicTaskManager.Models.TaskStatus)))
+                {
+                    <option value="@status">@status</option>
+                }
+            </InputSelect>
         </div>
         <button class="btn btn-primary" type="submit">Guardar</button>
         <a class="btn btn-secondary ms-2" href="/tasks">Cancelar</a>

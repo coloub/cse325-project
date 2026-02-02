@@ -13,16 +13,23 @@
             <th>Nombre</th>
             <th>Descripción</th>
             <th>Tareas</th>
+            <th>Completadas</th>
+            <th>% Completado</th>
             <th>Acciones</th>
         </tr>
     </thead>
     <tbody>
         @foreach (var project in projects)
         {
+            var total = project.Tasks.Count;
+            var completed = project.Tasks.Count(t => t.Status == AcademicTaskManager.Models.TaskStatus.Completed);
+            var percent = total > 0 ? (int)(completed * 100.0 / total) : 0;
             <tr>
                 <td>@project.Name</td>
                 <td>@project.Description</td>
-                <td>@project.Tasks.Count</td>
+                <td>@total</td>
+                <td>@completed</td>
+                <td>@percent %</td>
                 <td>
                     <a class="btn btn-sm btn-secondary" href="/projects/edit/@project.Id">Editar</a>
                     <a class="btn btn-sm btn-danger" href="/projects/delete/@project.Id">Eliminar</a>
