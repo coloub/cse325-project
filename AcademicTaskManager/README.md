@@ -105,8 +105,57 @@ The project is developed incrementally across weekly milestones:
 
 ---
 
-## Notes
-This project follows best practices for academic software development, emphasizing clarity, maintainability, and incremental progress. All development decisions are aligned with course requirements and evaluation rubrics.
+## How to Use
+
+This guide explains how to use the main features of the Academic Task Manager web application.
+
+### 1. Start the Application
+
+- Open a terminal in the project folder.
+- Run:
+  ```
+  dotnet run
+  ```
+- Open your browser and go to:
+  - [http://localhost:5058](http://localhost:5058)
+
+### 2. Projects
+
+- Go to [http://localhost:5058/projects](http://localhost:5058/projects)
+- Here you can:
+  - View all projects
+  - See the number of tasks and progress for each project
+  - Create a new project ("Create Project" button)
+  - Edit or delete existing projects
+
+### 3. Tasks
+
+- Go to [http://localhost:5058/tasks](http://localhost:5058/tasks)
+- Here you can:
+  - View all tasks
+  - Filter tasks by project or status (Pending, InProgress, Completed)
+  - Mark tasks as completed directly from the list
+  - Create a new task ("Create Task" button)
+  - Edit or delete existing tasks
+
+### 4. Navigation
+
+- Use the navigation menu to switch between Projects and Tasks.
+- Each page has buttons to create, edit, or delete items.
+
+### 5. Progress Tracking
+
+- Projects page shows progress: total tasks, completed tasks, and percentage complete.
+- Tasks page allows you to update task status and completion.
+
+### 6. Additional Info
+
+- The app uses Bootstrap for a simple and clean UI.
+- All changes are saved automatically.
+
+---
+
+If you have any questions or issues, please contact the project author.
 
 ---
 
