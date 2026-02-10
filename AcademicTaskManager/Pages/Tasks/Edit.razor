@@ -55,12 +55,13 @@ else
 
 @code {
     [Parameter] public int id { get; set; }
-    private TaskItem task;
+    private TaskItem task = new();
     private List<Project> projects = new();
 
     protected override async Task OnInitializedAsync()
     {
-        task = await Db.TaskItems.FindAsync(id);
+        var foundTask = await Db.TaskItems.FindAsync(id);
+        task = foundTask ?? new TaskItem();
         projects = await Db.Projects.ToListAsync();
     }
 

@@ -21,11 +21,12 @@ else
 
 @code {
     [Parameter] public int id { get; set; }
-    private TaskItem task;
+    private TaskItem task = new();
 
     protected override async Task OnInitializedAsync()
     {
-        task = await Db.TaskItems.FindAsync(id);
+        var foundTask = await Db.TaskItems.FindAsync(id);
+        task = foundTask ?? new TaskItem();
     }
 
     private async Task DeleteTask()
