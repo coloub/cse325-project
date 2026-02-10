@@ -1,4 +1,6 @@
 @page "/projects/create"
+@using Microsoft.AspNetCore.Authorization
+@attribute [Authorize]
 @using AcademicTaskManager.Data
 @using Microsoft.AspNetCore.Components.Forms
 @using Microsoft.EntityFrameworkCore
@@ -12,6 +14,14 @@
 <EditForm Model="project" OnValidSubmit="CreateProject">
     <DataAnnotationsValidator />
     <ValidationSummary />
+    @if (!string.IsNullOrEmpty(successMessage))
+    {
+        <div class="alert alert-success">@successMessage</div>
+    }
+    @if (!string.IsNullOrEmpty(errorMessage))
+    {
+        <div class="alert alert-danger">@errorMessage</div>
+    }
     <div class="mb-3">
         <label>Nombre</label>
         <InputText class="form-control" @bind-value="project.Name" />
@@ -26,11 +36,22 @@
 
 @code {
     private Project project = new();
+    private string successMessage = string.Empty;
+    private string errorMessage = string.Empty;
 
     private async Task CreateProject()
     {
-        Db.Projects.Add(project);
-        await Db.SaveChangesAsync();
-        Nav.NavigateTo("/projects");
+        try
+        {
+            Db.Projects.Add(project);
+            await Db.SaveChangesAsync();
+            successMessage = "Project created successfully";
+            await Task.Delay(1200);
+            Nav.NavigateTo("/projects");
+        }
+        catch (Exception ex)
+        {
+            errorMessage = ex.Message;
+        }
     }
 }

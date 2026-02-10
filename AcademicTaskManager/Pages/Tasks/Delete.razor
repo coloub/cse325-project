@@ -1,4 +1,6 @@
 @page "/tasks/delete/{id:int}"
+@using Microsoft.AspNetCore.Authorization
+@attribute [Authorize]
 @using AcademicTaskManager.Data
 @using AcademicTaskManager.Models
 @inject ApplicationDbContext Db
@@ -29,10 +31,22 @@ else
         task = foundTask ?? new TaskItem();
     }
 
+    private string successMessage = string.Empty;
+    private string errorMessage = string.Empty;
+
     private async Task DeleteTask()
     {
-        Db.TaskItems.Remove(task);
-        await Db.SaveChangesAsync();
-        Nav.NavigateTo("/tasks");
+        try
+        {
+            Db.TaskItems.Remove(task);
+            await Db.SaveChangesAsync();
+            successMessage = "Task deleted successfully";
+            await Task.Delay(1200);
+            Nav.NavigateTo("/tasks");
+        }
+        catch (Exception ex)
+        {
+            errorMessage = ex.Message;
+        }
     }
 }

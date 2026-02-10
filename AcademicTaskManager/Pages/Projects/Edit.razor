@@ -1,4 +1,6 @@
 @page "/projects/edit/{id:int}"
+@using Microsoft.AspNetCore.Authorization
+@attribute [Authorize]
 @using AcademicTaskManager.Data
 @using Microsoft.AspNetCore.Components.Forms
 @using Microsoft.EntityFrameworkCore
@@ -34,6 +36,8 @@ else
 @code {
     [Parameter] public int id { get; set; }
     private Project project = new();
+    private string successMessage = string.Empty;
+    private string errorMessage = string.Empty;
 
     protected override async Task OnInitializedAsync()
     {
@@ -43,8 +47,17 @@ else
 
     private async Task UpdateProject()
     {
-        Db.Projects.Update(project);
-        await Db.SaveChangesAsync();
-        Nav.NavigateTo("/projects");
+        try
+        {
+            Db.Projects.Update(project);
+            await Db.SaveChangesAsync();
+            successMessage = "Project updated successfully";
+            await Task.Delay(1200);
+            Nav.NavigateTo("/projects");
+        }
+        catch (Exception ex)
+        {
+            errorMessage = ex.Message;
+        }
     }
 }

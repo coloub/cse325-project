@@ -1,4 +1,6 @@
 @page "/projects/delete/{id:int}"
+@using Microsoft.AspNetCore.Authorization
+@attribute [Authorize]
 @using AcademicTaskManager.Data
 @using AcademicTaskManager.Models
 @inject ApplicationDbContext Db
@@ -29,10 +31,22 @@ else
         project = foundProject ?? new Project();
     }
 
+    private string successMessage = string.Empty;
+    private string errorMessage = string.Empty;
+
     private async Task DeleteProject()
     {
-        Db.Projects.Remove(project);
-        await Db.SaveChangesAsync();
-        Nav.NavigateTo("/projects");
+        try
+        {
+            Db.Projects.Remove(project);
+            await Db.SaveChangesAsync();
+            successMessage = "Project deleted successfully";
+            await Task.Delay(1200);
+            Nav.NavigateTo("/projects");
+        }
+        catch (Exception ex)
+        {
+            errorMessage = ex.Message;
+        }
     }
 }

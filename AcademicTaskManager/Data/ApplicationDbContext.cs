@@ -3,7 +3,7 @@ using AcademicTaskManager.Models;
 
 namespace AcademicTaskManager.Data
 {
-    public class ApplicationDbContext : DbContext
+    public class ApplicationDbContext : Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityDbContext
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) { }
 
@@ -22,9 +22,9 @@ namespace AcademicTaskManager.Data
 
             modelBuilder.Entity<TaskItem>().Property(t => t.Status).HasDefaultValue(AcademicTaskManager.Models.TaskStatus.Pending);
             modelBuilder.Entity<TaskItem>().HasData(
-                new TaskItem { Id = 1, Title = "Tarea 1", Description = "Primera tarea", DueDate = DateTime.Now.AddDays(7), IsCompleted = false, Status = AcademicTaskManager.Models.TaskStatus.Pending, ProjectId = 1 },
-                new TaskItem { Id = 2, Title = "Tarea 2", Description = "Segunda tarea", DueDate = DateTime.Now.AddDays(14), IsCompleted = false, Status = AcademicTaskManager.Models.TaskStatus.InProgress, ProjectId = 1 },
-                new TaskItem { Id = 3, Title = "Tarea 3", Description = "Tercera tarea", DueDate = DateTime.Now.AddDays(10), IsCompleted = true, Status = AcademicTaskManager.Models.TaskStatus.Completed, ProjectId = 2 }
+                new TaskItem { Id = 1, Title = "Tarea 1", Description = "Primera tarea", DueDate = new DateTime(2026, 2, 17), IsCompleted = false, Status = AcademicTaskManager.Models.TaskStatus.Pending, ProjectId = 1 },
+                new TaskItem { Id = 2, Title = "Tarea 2", Description = "Segunda tarea", DueDate = new DateTime(2026, 2, 24), IsCompleted = false, Status = AcademicTaskManager.Models.TaskStatus.InProgress, ProjectId = 1 },
+                new TaskItem { Id = 3, Title = "Tarea 3", Description = "Tercera tarea", DueDate = new DateTime(2026, 2, 20), IsCompleted = true, Status = AcademicTaskManager.Models.TaskStatus.Completed, ProjectId = 2 }
             );
         }
     }
